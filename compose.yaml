@@ -1,0 +1,18 @@
+services:
+  minecraft:
+    image: itzg/minecraft-server
+    container_name: minecraft
+    ports:
+      - "25565:25565"
+    environment:
+      EULA: "TRUE"
+      TYPE: "PAPER"
+      VERSION: "LATEST"
+      MEMORY: "4G"
+      ONLINE_MODE: "FALSE"
+      MOTD: "mc-platform - laboratorio de agentes"
+    volumes:
+      - ./minecraft-data:/data
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
