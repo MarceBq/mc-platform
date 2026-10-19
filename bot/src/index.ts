@@ -1,9 +1,9 @@
 import { createBot } from 'mineflayer'
 
 const bot = createBot({
-  host: 'localhost',
-  port: 25565,
-  username: 'Agente01',
+  host: process.env.MC_HOST ?? 'localhost',
+  port: Number(process.env.MC_PORT ?? 25565),
+  username: process.env.BOT_NAME ?? 'Agente01',
   auth: 'offline',
   version: '26.1',
 })

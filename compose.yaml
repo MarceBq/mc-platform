@@ -16,3 +16,15 @@ services:
     stdin_open: true
     tty: true
     restart: unless-stopped
+
+  bot:
+    build: ./bot
+    container_name: bot-agente01
+    environment:
+      MC_HOST: minecraft
+      MC_PORT: "25565"
+      BOT_NAME: Agente01
+    depends_on:
+      minecraft:
+        condition: service_healthy
+    restart: unless-stopped
