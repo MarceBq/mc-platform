@@ -6,8 +6,8 @@ services:
       - "25565:25565"
     environment:
       EULA: "TRUE"
-      TYPE: "PAPER"
-      VERSION: "LATEST"
+      TYPE: "VANILLA"
+      VERSION: "26.1"
       MEMORY: "4G"
       ONLINE_MODE: "FALSE"
       MOTD: "mc-platform - laboratorio de agentes"
