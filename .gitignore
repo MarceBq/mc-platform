@@ -1,5 +1,9 @@
 # Datos del servidor de Minecraft (mundo, logs, jars). Se regeneran con Docker.
-minecraft-data/
+minecraft-data*/
 
 # Secretos y variables de entorno. Nunca se suben.
 .env
+
+# Node modules y archivos de distribución. Se regeneran con npm/yarn.
+node_modules/
+dist/
