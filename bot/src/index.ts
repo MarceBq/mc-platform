@@ -101,6 +101,30 @@ function percibirEntorno(radio = 16): Entorno {
   }
 }
 
+interface Inventario {
+  items: { nombre: string; cantidad: number }[]
+  enMano: string | null
+  espaciosLibres: number
+}
+
+// HABILIDAD: revisar el inventario
+function verInventario(): Inventario {
+  // Sumar todas las pilas del mismo tipo (ej: 64 + 6 troncos = 70)
+  const totales: Record<string, number> = {}
+  for (const item of bot.inventory.items()) {
+    totales[item.name] = (totales[item.name] ?? 0) + item.count
+  }
+
+  return {
+    items: Object.entries(totales)
+      .map(([nombre, cantidad]) => ({ nombre, cantidad }))
+      .sort((a, b) => b.cantidad - a.cantidad),
+    enMano: bot.heldItem?.name ?? null,
+    espaciosLibres: bot.inventory.emptySlotCount(),
+  }
+}
+
+
 bot.on('chat', async (username, message) => {
   if (username === bot.username) return
   console.log(`[chat] <${username}> ${message}`)
@@ -150,6 +174,13 @@ bot.on('chat', async (username, message) => {
       bot.chat(`${e.esDeDia ? 'Es de dia' : 'Es de noche'}. Vida ${e.vida}/20, hambre ${e.hambre}/20`)
       bot.chat(`Bloques: ${bloquesTxt}`.slice(0, 250))
       bot.chat(`Cerca: ${entidadesTxt}`.slice(0, 250))
+    } else if (comando === 'inventario') {
+      const inv = verInventario()
+      console.log('[inventario]', JSON.stringify(inv, null, 2))
+
+      const itemsTxt = inv.items.map((i) => `${i.nombre} x${i.cantidad}`).join(', ') || 'vacio'
+      bot.chat(`Llevo: ${itemsTxt}`.slice(0, 250))
+      bot.chat(`En mano: ${inv.enMano ?? 'nada'}. Espacios libres: ${inv.espaciosLibres}`)
     }
   } catch (err) {
     bot.chat(`No pude hacerlo: ${(err as Error).message}`)
